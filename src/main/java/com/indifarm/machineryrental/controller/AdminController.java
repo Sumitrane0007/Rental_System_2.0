@@ -80,6 +80,7 @@ package com.indifarm.machineryrental.controller;
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestParam; // Import this
 
+import com.indifarm.machineryrental.model.Farmer;
 import com.indifarm.machineryrental.model.Machine; // <-- IMPORT
 import com.indifarm.machineryrental.model.Owner;
 import com.indifarm.machineryrental.repository.OwnerRepository;
@@ -111,7 +112,7 @@ public class AdminController {
     @Autowired private OwnerRepository ownerRepo;
     @Autowired private BookingService bookingService;
     @Autowired private FarmerService farmerService; // Inject FarmerService
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
     @GetMapping("/dashboard")
     public String adminDashboard(Model model, Principal principal) {
         // We assume the "ADMIN" user is linked to a "GOVERNMENT_CHC" Owner profile
@@ -127,10 +128,27 @@ public class AdminController {
 
         return "admin-dashboard";
     }
+    @GetMapping("/all-farmers")
+    public String showAllFarmers(Model model) {
+        // Use the existing farmerService to get all farmers
+        model.addAttribute("allFarmers", farmerService.getAllFarmers());
+        return "all-farmers"; // Return the name of our new HTML file
+    }
+    // ... (after the /all-farmers mapping)
 
-    //    @GetMapping("/add-machine")
-//    public String addCHCMachinePage() {
-//        return "add-machine";
+    // --- NEW METHOD FOR FARMER DETAILS PAGE ---
+    @GetMapping("/farmer-details/{id}")
+    public String showFarmerDetails(@PathVariable("id") Long id, Model model) {
+        Farmer farmer = farmerService.getFarmerById(id)
+                .orElseThrow(() -> new RuntimeException("Farmer not found with id: " + id));
+
+        model.addAttribute("farmer", farmer);
+        return "farmer-details"; // Name of the new HTML file
+    }
+//    @PostMapping("/verify-farmer")
+//    public String verifyFarmer(@RequestParam("farmerId") Long farmerId) {
+//        farmerService.verifyFarmer(farmerId);
+//        return "redirect:/admin/dashboard";
 //    }
     @GetMapping("/add-machine")
     public String addCHCMachinePage(Model model) {

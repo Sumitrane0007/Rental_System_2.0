@@ -292,8 +292,7 @@ public class OwnerController {
     @Autowired private BookingService bookingService;
     @Autowired private MachineService machineService; // <-- INJECTED
 
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads";
-
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/uploads";
     @GetMapping("/dashboard")
     public String ownerDashboard(Model model, Principal principal) {
         Owner owner = ownerRepo.findByUserUsername(principal.getName())
