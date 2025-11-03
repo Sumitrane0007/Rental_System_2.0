@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Farmers - IndiFarm Admin</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fdf7;
+            color: #333;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px; /* Space below navbar */
+        }
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+            text-decoration: none;
+        }
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-secondary { /* Style for "Dashboard" link */
+             background-color: #e8f5e9;
+             color: #2e7d32;
+        }
+         .btn-secondary:hover {
+             background-color: #dceddc;
+         }
+        .btn-logout {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+         .btn-logout:hover {
+             background-color: #d5d5d5;
+         }
+
+
+        /* --- Main Content --- */
+        .page-container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* --- Card & Table Styling --- */
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: #2e7d32;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border-bottom: 1px solid #ddd;
+            padding: 12px 8px;
+            text-align: left;
+            vertical-align: middle;
+        }
+        th {
+            background-color: #f9f9f9;
+            font-weight: 600;
+            color: #444;
+        }
+        .no-data {
+            color: #777;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* --- View Details Button Style --- */
+        .btn-view {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2e7d32;
+            background-color: #e8f5e9;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+        .btn-view:hover {
+            background-color: #dceddc;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/}" class="logo">🌾 IndiFarm Rental</a>
+    <div class="nav-buttons">
+        <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Admin Dashboard</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="page-container">
+    <div class="card">
+        <h3>All Registered Farmers</h3>
+
+        <div th:if="${allFarmers.isEmpty()}">
+            <p class="no-data">No farmers have registered yet.</p>
+        </div>
+
+        <table th:if="${!allFarmers.isEmpty()}">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>District</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Action</th> </tr>
+            </thead>
+            <tbody>
+            <tr th:each="f : ${allFarmers}">
+                <td th:text="${f.name}"></td>
+                <td th:text="${f.phone}"></td>
+                <td th:text="${f.district}"></td>
+                <td th:text="${f.farmerCategory}"></td>
+                <td th:text="${f.verified} ? 'Verified' : 'Pending'"
+                    th:style="${f.verified ? 'color:green; font-weight: 600;' : 'color:orange;'}">
+                </td>
+                <td>
+                    <a th:href="@{/admin/farmer-details/{id}(id=${f.id})}" class="btn-view">View Details</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

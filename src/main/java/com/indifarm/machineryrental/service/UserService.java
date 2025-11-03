@@ -55,7 +55,7 @@ public class UserService {
     private final FarmerRepository farmerRepository;
     private final OwnerRepository ownerRepository;
     private final PasswordEncoder passwordEncoder;
-    public static String PROOF_UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/proofs";
+    public static String PROOF_UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/proofs";//    public static String PROOF_UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/target/classes/static/proofs";
     public UserService(UserRepository userRepository, FarmerRepository farmerRepository, OwnerRepository ownerRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.farmerRepository = farmerRepository;

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmer Details - IndiFarm Admin</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fdf7;
+            color: #333;
+        }
+
+        /* --- Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2e7d32;
+            text-decoration: none;
+        }
+        .navbar .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-secondary {
+             background-color: #e8f5e9;
+             color: #2e7d32;
+        }
+        .btn-logout {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        /* --- Main Content --- */
+        .page-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #2e7d32;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 15px 20px;
+            font-size: 1rem;
+        }
+        .details-grid strong {
+            font-weight: 600;
+            color: #444;
+        }
+        .details-grid span {
+            color: #333;
+        }
+
+        .proof-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+        }
+
+        .status-verified {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        .status-pending {
+            font-weight: 600;
+            color: #ff9800;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a th:href="@{/}" class="logo">🌾 IndiFarm Rental</a>
+    <div class="nav-buttons">
+        <a th:href="@{/admin/all-farmers}" class="btn btn-secondary">Back to Farmer List</a>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-logout">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<div class="page-container" th:object="${farmer}">
+    <div class="card">
+        <h2 th:text="*{name}">Farmer Name</h2>
+
+        <div class="details-grid">
+            <strong>Status:</strong>
+            <span th:text="*{verified} ? 'Verified' : 'Pending Verification'"
+                  th:class="*{verified} ? 'status-verified' : 'status-pending'"></span>
+
+            <strong>Username:</strong>
+            <span th:text="*{user.username}"></span>
+
+            <strong>Phone:</strong>
+            <span th:text="*{phone}"></span>
+
+            <strong>Email:</strong>
+            <span th:text="*{email}"></span>
+
+            <strong>Address:</strong>
+            <span th:text="*{address}"></span>
+
+            <strong>District:</strong>
+            <span th:text="*{district}"></span>
+
+            <strong>Aadhaar Number:</strong>
+            <span th:text="*{aadharNumber}"></span>
+
+            <strong>Land Size:</strong>
+            <span th:text="*{landSizeInAcres} + ' Acres'"></span>
+
+            <strong>Farmer Category:</strong>
+            <span th:text="*{farmerCategory}"></span>
+
+            <strong>Category Proof:</strong>
+            <div>
+                <a th:if="*{categoryProofUrl}"
+                   th:href="@{${categoryProofUrl}}"
+                   target="_blank"
+                   style="color: #2e7d32; font-weight: 600;">
+                    View Full Document
+                </a>
+                <span th:if="*{categoryProofUrl == null}">N/A</span>
+
+                <img th:if="*{categoryProofUrl}"
+                     th:src="@{${categoryProofUrl}}"
+                     alt="Proof Document"
+                     class="proof-image" />
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
