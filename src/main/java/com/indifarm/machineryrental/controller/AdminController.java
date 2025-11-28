@@ -301,4 +301,23 @@ public class AdminController {
         farmerService.verifyFarmer(farmerId);
         return "redirect:/admin/dashboard";
     }
+
+    @PostMapping("/delete-farmer/{id}")
+    public String deleteFarmer(@PathVariable("id") Long id,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            // Calls the core service logic (which includes the booking check and user deletion)
+            farmerService.deleteFarmer(id);
+            redirectAttributes.addFlashAttribute("successMessage", "Farmer deleted successfully.");
+        } catch (RuntimeException e) {
+            // Catches the exception thrown by FarmerService (e.g., if farmer has bookings)
+            // The service logic handles the foreign key check.
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
+        // Redirect back to the all-farmers list to see the updated table
+        return "redirect:/admin/all-farmers";
+    }
+
+
+
 }

@@ -115,6 +115,24 @@
         .btn-view:hover {
             background-color: #dceddc;
         }
+
+        /* --- NEW: Delete Button Style --- */
+        .btn-delete {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #c62828; /* Red color */
+            background-color: #ffebee; /* Light red background */
+            border-radius: 6px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-left: 5px; /* Space between View and Delete */
+        }
+        .btn-delete:hover {
+            background-color: #ffcdd2;
+        }
     </style>
 </head>
 <body>
@@ -158,6 +176,11 @@
                 </td>
                 <td>
                     <a th:href="@{/admin/farmer-details/{id}(id=${f.id})}" class="btn-view">View Details</a>
+
+                    <form th:action="@{/admin/delete-farmer/{id}(id=${f.id})}" method="post" style="display: inline;"
+                          th:attr="onsubmit=|return confirm('Are you sure you want to delete farmer ${f.name}? This action cannot be undone.');|">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
                 </td>
             </tr>
             </tbody>

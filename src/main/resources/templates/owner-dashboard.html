@@ -414,7 +414,6 @@
 <!--</div>-->
 <!--</body>-->
 <!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -692,8 +691,8 @@
                 <tr th:each="b : ${bookings}" th:if="${b.status == 'Pending'}">
                     <td th:text="${b.machine.name}"></td>
                     <td th:text="${b.farmer.name}"></td>
-                    <td th:text_="${b.startDate + ' to ' + b.endDate}"></td>
-                    <td th:text_="${'₹' + b.finalAmount}"></td>
+                    <td th:text="${b.startDate + ' to ' + b.endDate}"></td>
+                    <td th:text="${'₹' + b.finalAmount}"></td>
                     <td>
                         <form th:action="@{/booking/approve}" method="post" style="display: inline;">
                             <input type="hidden" name="bookingId" th:value="${b.id}" />
@@ -729,7 +728,7 @@
                 <tr th:each="b : ${bookings}" th:if="${b.status != 'Pending'}">
                     <td th:text="${b.machine.name}"></td>
                     <td th:text="${b.farmer.name}"></td>
-                    <td th:text_="${b.startDate + ' to ' + b.endDate}"></td>
+                    <td th:text="${b.startDate + ' to ' + b.endDate}"></td>
                     <td th:text="${b.status}"
                         th:style_="${b.status == 'Approved' ? 'color:green; font-weight: 600;' : 'color:red;'}">
                     </td>
